@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_order_simulator/screens/constants/spacing.dart';
 import 'package:food_order_simulator/screens/sections/bot_panel_section.dart';
-import 'package:food_order_simulator/screens/sections/pending_orders_section.dart';
+import 'package:food_order_simulator/screens/sections/order_panel_section.dart';
+import 'package:food_order_simulator/screens/sections/order_section.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -22,16 +24,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            OrderPanelSection(),
             Expanded(
               child: ListView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kSpacingMedium,
+                  vertical: kSpacingSmall,
+                ),
                 children: [
-                  PendingOrdersSection(
+                  OrderSection(
                     title: 'PENDING',
-                    backgroundColor: Colors.orange[300]!,
+                    backgroundColor: Colors.orange[50]!,
                   ),
-                  PendingOrdersSection(
+                  OrderSection(
                     title: 'COMPLETED',
-                    backgroundColor: Colors.green[100]!,
+                    backgroundColor: Colors.green[50]!,
                   ),
                 ],
               ),
