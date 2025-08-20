@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_order_simulator/screens/sections/bot_panel_section.dart';
+import 'package:food_order_simulator/screens/sections/pending_orders_section.dart';
+
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Food Order Simulator"),
+      ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  PendingOrdersSection(
+                    title: 'PENDING',
+                    backgroundColor: Colors.orange[300]!,
+                  ),
+                  PendingOrdersSection(
+                    title: 'COMPLETED',
+                    backgroundColor: Colors.green[100]!,
+                  ),
+                ],
+              ),
+            ),
+            BotPanelSection(),
+          ],
+        ),
+      ),
+    );
+  }
+}
