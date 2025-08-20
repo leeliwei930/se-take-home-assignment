@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "c819de952974683b",
+        "id": "ad720af10f664cd8",
         "type": "tabs",
         "children": [
           {
-            "id": "5b175a5ed28eb20d",
+            "id": "2b8665f40e0c4a40",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
@@ -60,6 +60,18 @@
               },
               "icon": "lucide-search",
               "title": "Search"
+            }
+          },
+          {
+            "id": "5b175a5ed28eb20d",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Planning/Drawing 2025-08-20 19.33.26.excalidraw.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Drawing 2025-08-20 19.33.26.excalidraw"
             }
           },
           {
@@ -168,7 +180,7 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "5b175a5ed28eb20d",
+  "active": "2b8665f40e0c4a40",
   "lastOpenFiles": [
     "Planning/Drawing 2025-08-20 19.33.26.excalidraw.md",
     "Planning"
