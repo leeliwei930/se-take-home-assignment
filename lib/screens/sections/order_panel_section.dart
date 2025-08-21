@@ -27,8 +27,8 @@ class OrderPanelSection extends ConsumerWidget {
             child: FilledButton.icon(
               icon: Icon(Icons.add),
               style: FilledButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
+                backgroundColor: Colors.blue[100],
+                foregroundColor: Colors.black,
               ),
               label: const Text('New Normal Order'),
               onPressed: () {
