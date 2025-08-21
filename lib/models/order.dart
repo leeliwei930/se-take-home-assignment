@@ -17,14 +17,14 @@ enum OrderPriority {
 class Order extends Equatable {
   Order({
     required this.id,
-    required this.cookTimer,
+    this.cookTimer,
     required this.status,
     required this.type,
     this.preparedBy,
   });
 
   final int id;
-  final Timer cookTimer;
+  final Timer? cookTimer;
   final OrderStatus status;
   final OrderPriority type;
   final Bot? preparedBy;
@@ -36,6 +36,7 @@ class Order extends Equatable {
     OrderStatus? status,
     OrderPriority? type,
     Bot? preparedBy,
+    Timer? cookTimer,
   }) {
     return Order(
       id: id,

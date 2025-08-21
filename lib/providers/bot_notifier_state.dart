@@ -7,14 +7,14 @@ class BotNotifierState extends Equatable {
     required this.botIdCounter,
   });
 
-  final List<Bot> bots;
+  final Map<int, Bot> bots;
   final int botIdCounter;
 
   @override
   List<Object?> get props => [bots, botIdCounter];
 
   BotNotifierState copyWith({
-    List<Bot>? bots,
+    Map<int, Bot>? bots,
     int? botIdCounter,
   }) {
     return BotNotifierState(

@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'order_notifier_provider.g.dart';
 
-const kCookingDuration = Duration(seconds: 10);
+const kCookingDuration = 10;
 
 @Riverpod(keepAlive: true)
 class OrderNotifier extends _$OrderNotifier {
@@ -23,9 +23,6 @@ class OrderNotifier extends _$OrderNotifier {
     final orderId = state.orderIdCounter;
     final order = Order(
       id: orderId,
-      cookTimer: Timer(kCookingDuration, () {
-        completeOrder(orderId);
-      }),
       status: OrderStatus.pending,
       type: OrderPriority.vip,
     );
@@ -35,7 +32,7 @@ class OrderNotifier extends _$OrderNotifier {
   void addNormalOrder() {
     final order = Order(
       id: state.orderIdCounter,
-      cookTimer: Timer(kCookingDuration, () {}),
+      cookTimer: Timer(Duration(seconds: 1), () {}),
       status: OrderStatus.pending,
       type: OrderPriority.normal,
     );
