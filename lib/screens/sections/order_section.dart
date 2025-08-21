@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/screens/constants/radius.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
+import 'package:food_order_simulator/widgets/order_tile.dart';
 
 class OrderSection extends ConsumerWidget {
   const OrderSection({
@@ -33,16 +37,24 @@ class OrderSection extends ConsumerWidget {
           ),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
+              crossAxisCount: 6,
+              mainAxisExtent: 120,
+              crossAxisSpacing: kSpacingXxSmall,
+              mainAxisSpacing: kSpacingXxSmall,
             ),
+
             scrollDirection: Axis.horizontal,
-            itemCount: 12,
+            itemCount: 2,
+            padding: const EdgeInsets.all(kSpacingSmall),
             itemBuilder: (context, index) {
-              return Container(
-                height: 10,
-                width: 120,
-                decoration: BoxDecoration(color: Colors.orange[100]),
-                child: Center(child: Text('Order $index')),
+              return OrderTile(
+                order: Order(
+                  id: index,
+                  cookTimer: Timer(const Duration(seconds: 10), () {}),
+                  status: OrderStatus.pending,
+                  type: OrderPriority.normal,
+                ),
+                onTap: () {},
               );
             },
           ),
