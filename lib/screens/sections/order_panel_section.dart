@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/order_notifier_provider.dart';
-import 'package:food_order_simulator/providers/order_providers.dart';
 import 'package:food_order_simulator/screens/constants/shadow.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
 
