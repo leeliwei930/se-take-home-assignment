@@ -18,8 +18,8 @@ class OrderTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.orange),
-          color: Colors.orange[100],
+          border: Border.all(color: order.type == OrderPriority.vip ? Colors.orange : Colors.blue),
+          color: order.type == OrderPriority.vip ? Colors.orange[100] : Colors.blue[100],
           borderRadius: BorderRadius.all(
             Radius.circular(kRadiusSmall),
           ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_order_simulator/models/order.dart';
+import 'package:food_order_simulator/providers/order_notifier_provider.dart';
+import 'package:food_order_simulator/providers/order_providers.dart';
 import 'package:food_order_simulator/screens/constants/shadow.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
 
@@ -28,7 +31,11 @@ class OrderPanelSection extends ConsumerWidget {
                 foregroundColor: Colors.white,
               ),
               label: const Text('New Normal Order'),
-              onPressed: () {},
+              onPressed: () {
+                final orderNotifier = ref.read(orderNotifierProvider.notifier);
+
+                orderNotifier.addNormalOrder();
+              },
             ),
           ),
           const SizedBox(width: kSpacingXSmall),
@@ -40,7 +47,11 @@ class OrderPanelSection extends ConsumerWidget {
                 foregroundColor: Colors.black,
               ),
               label: const Text('New VIP Order'),
-              onPressed: () {},
+              onPressed: () {
+                final orderNotifier = ref.read(orderNotifierProvider.notifier);
+
+                orderNotifier.addVIPOrder();
+              },
             ),
           ),
         ],

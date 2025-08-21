@@ -12,10 +12,12 @@ class OrderSection extends ConsumerWidget {
     super.key,
     required this.title,
     required this.backgroundColor,
+    required this.orders,
   });
 
   final String title;
   final Color backgroundColor;
+  final List<Order> orders;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,16 +46,11 @@ class OrderSection extends ConsumerWidget {
             ),
 
             scrollDirection: Axis.horizontal,
-            itemCount: 2,
+            itemCount: orders.length,
             padding: const EdgeInsets.all(kSpacingSmall),
             itemBuilder: (context, index) {
               return OrderTile(
-                order: Order(
-                  id: index,
-                  cookTimer: Timer(const Duration(seconds: 10), () {}),
-                  status: OrderStatus.pending,
-                  type: OrderPriority.normal,
-                ),
+                order: orders[index],
                 onTap: () {},
               );
             },

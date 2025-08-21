@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_order_simulator/providers/order_providers.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
 import 'package:food_order_simulator/screens/sections/bot_panel_section.dart';
 import 'package:food_order_simulator/screens/sections/order_panel_section.dart';
@@ -15,6 +16,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final pendingOrders = ref.watch(pendingOrdersProvider);
+    final completedOrders = ref.watch(completedOrdersProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,10 +39,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   OrderSection(
                     title: 'PENDING',
                     backgroundColor: Colors.orange[50]!,
+                    orders: pendingOrders,
                   ),
                   OrderSection(
                     title: 'COMPLETED',
                     backgroundColor: Colors.green[50]!,
+                    orders: completedOrders,
                   ),
                 ],
               ),
