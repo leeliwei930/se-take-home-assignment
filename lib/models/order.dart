@@ -31,4 +31,18 @@ class Order extends Equatable {
 
   @override
   List<Object?> get props => [id, cookTimer, status, type, preparedBy];
+
+  Order copyWith({
+    OrderStatus? status,
+    OrderPriority? type,
+    Bot? preparedBy,
+  }) {
+    return Order(
+      id: id,
+      cookTimer: cookTimer,
+      status: status ?? this.status,
+      type: type ?? this.type,
+      preparedBy: preparedBy ?? this.preparedBy,
+    );
+  }
 }

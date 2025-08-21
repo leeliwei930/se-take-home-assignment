@@ -20,9 +20,12 @@ class OrderNotifier extends _$OrderNotifier {
   }
 
   void addVIPOrder() {
+    final orderId = state.orderIdCounter;
     final order = Order(
-      id: state.orderIdCounter,
-      cookTimer: Timer(kCookingDuration, () {}),
+      id: orderId,
+      cookTimer: Timer(kCookingDuration, () {
+        completeOrder(orderId);
+      }),
       status: OrderStatus.pending,
       type: OrderPriority.vip,
     );
@@ -42,5 +45,24 @@ class OrderNotifier extends _$OrderNotifier {
     );
   }
 
-  void completeOrder(Order order) {}
+  void completeOrder(int orderId) {
+    final order = state.vipOrdersQueue[orderId] ?? state.normalOrdersQueue[orderId]!;
+
+    final orderType = order.type;
+    if (orderType == OrderPriority.vip) {
+      state = state.copyWith(
+        vipOrdersQueue: {
+          ...state.vipOrdersQueue,
+          order.id: order.copyWith(status: OrderStatus.completed),
+        },
+      );
+    } else {
+      state = state.copyWith(
+        normalOrdersQueue: {
+          ...state.normalOrdersQueue,
+          order.id: order.copyWith(status: OrderStatus.completed),
+        },
+      );
+    }
+  }
 }
