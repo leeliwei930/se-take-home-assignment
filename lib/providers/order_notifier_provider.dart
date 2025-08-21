@@ -6,13 +6,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'order_notifier_provider.g.dart';
 
+const kCookingDuration = Duration(seconds: 10);
+
 @Riverpod(keepAlive: true)
 class OrderNotifier extends _$OrderNotifier {
   @override
   OrderQueueState build() {
     return OrderQueueState(
-      vipOrdersQueue: [],
-      normalOrdersQueue: [],
+      vipOrdersQueue: {},
+      normalOrdersQueue: {},
       orderIdCounter: 0,
     );
   }
@@ -20,20 +22,25 @@ class OrderNotifier extends _$OrderNotifier {
   void addVIPOrder() {
     final order = Order(
       id: state.orderIdCounter,
-      cookTimer: Timer(const Duration(seconds: 10), () {}),
+      cookTimer: Timer(kCookingDuration, () {}),
       status: OrderStatus.pending,
       type: OrderPriority.vip,
     );
-    state = state.copyWith(vipOrdersQueue: [...state.vipOrdersQueue, order], orderIdCounter: order.id + 1);
+    state = state.copyWith(vipOrdersQueue: {...state.vipOrdersQueue, order.id: order}, orderIdCounter: order.id + 1);
   }
 
   void addNormalOrder() {
     final order = Order(
       id: state.orderIdCounter,
-      cookTimer: Timer(const Duration(seconds: 10), () {}),
+      cookTimer: Timer(kCookingDuration, () {}),
       status: OrderStatus.pending,
       type: OrderPriority.normal,
     );
-    state = state.copyWith(normalOrdersQueue: [...state.normalOrdersQueue, order], orderIdCounter: order.id + 1);
+    state = state.copyWith(
+      normalOrdersQueue: {...state.normalOrdersQueue, order.id: order},
+      orderIdCounter: order.id + 1,
+    );
   }
+
+  void completeOrder(Order order) {}
 }

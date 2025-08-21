@@ -41,7 +41,7 @@ class BotPanelSection extends ConsumerWidget {
                 final bot = botNotifierState.bots[index];
                 return IntrinsicHeight(
                   child: BotAvatar(
-                    caption: 'Bot ${bot.id}',
+                    caption: 'Bot ${++index}',
                     backgroundColor: bot.status == BotStatus.idle ? Colors.blue[200] : Colors.green[200],
                   ),
                 );

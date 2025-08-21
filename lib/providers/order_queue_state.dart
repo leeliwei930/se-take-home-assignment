@@ -9,16 +9,16 @@ class OrderQueueState extends Equatable {
   });
 
   final int orderIdCounter;
-  final List<Order> vipOrdersQueue;
-  final List<Order> normalOrdersQueue;
+  final Map<int, Order> vipOrdersQueue;
+  final Map<int, Order> normalOrdersQueue;
 
   @override
   List<Object?> get props => [orderIdCounter, vipOrdersQueue, normalOrdersQueue];
 
   OrderQueueState copyWith({
     int? orderIdCounter,
-    List<Order>? vipOrdersQueue,
-    List<Order>? normalOrdersQueue,
+    Map<int, Order>? vipOrdersQueue,
+    Map<int, Order>? normalOrdersQueue,
   }) {
     return OrderQueueState(
       orderIdCounter: orderIdCounter ?? this.orderIdCounter,
