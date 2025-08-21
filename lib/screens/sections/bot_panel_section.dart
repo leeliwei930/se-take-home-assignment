@@ -35,12 +35,14 @@ class BotPanelSection extends ConsumerWidget {
                 return const SizedBox(width: kSpacingXSmall);
               },
               itemBuilder: (context, index) {
-                return IntrinsicHeight(child: BotAvatar(caption: 'Bot $index'));
+                return IntrinsicHeight(
+                  child: BotAvatar(caption: 'Bot $index'),
+                );
               },
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(kSpacingXSmall),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
