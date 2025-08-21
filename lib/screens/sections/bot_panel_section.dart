@@ -10,7 +10,6 @@ class BotPanelSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      height: 180,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: kBoxShadowMedium,
@@ -25,12 +24,18 @@ class BotPanelSection extends ConsumerWidget {
             ),
             child: Text('BOT Control Panel'),
           ),
-          Expanded(
-            child: ListView.builder(
+          SizedBox(
+            height: 100,
+            child: ListView.separated(
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: 10,
+              padding: const EdgeInsets.symmetric(horizontal: kSpacingMedium),
+              separatorBuilder: (context, index) {
+                return const SizedBox(width: kSpacingXSmall);
+              },
               itemBuilder: (context, index) {
-                return BotAvatar(caption: 'Bot $index');
+                return IntrinsicHeight(child: BotAvatar(caption: 'Bot $index'));
               },
             ),
           ),
