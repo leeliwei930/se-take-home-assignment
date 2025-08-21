@@ -4,12 +4,14 @@ class BotAvatar extends StatelessWidget {
   final String caption;
   final double size;
   final TextStyle? captionStyle;
+  final Color? backgroundColor;
 
   const BotAvatar({
     Key? key,
     required this.caption,
     this.size = 64.0,
     this.captionStyle,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class BotAvatar extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: size / 2,
-          backgroundColor: Colors.blue[200],
+          backgroundColor: backgroundColor ?? Colors.blue[200],
           child: Text(
             'BOT',
             style: TextStyle(
