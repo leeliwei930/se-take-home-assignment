@@ -1,21 +1,19 @@
-import 'package:food_order_simulator/models/bot.dart';
-
-class BotNotifierState {
-  final Map<int, Bot> bots;
+class BotsOrchestratorState {
   final int botIdCounter;
+  final Map<int, bool> botIds;
 
-  BotNotifierState({
-    required this.bots,
+  BotsOrchestratorState({
     required this.botIdCounter,
+    required this.botIds,
   });
 
-  BotNotifierState copyWith({
-    Map<int, Bot>? bots,
+  BotsOrchestratorState copyWith({
     int? botIdCounter,
+    Map<int, bool>? botIds,
   }) {
-    return BotNotifierState(
-      bots: bots ?? this.bots,
+    return BotsOrchestratorState(
       botIdCounter: botIdCounter ?? this.botIdCounter,
+      botIds: botIds ?? this.botIds,
     );
   }
 }

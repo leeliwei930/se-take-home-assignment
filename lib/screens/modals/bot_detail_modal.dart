@@ -24,8 +24,7 @@ class BotDetailModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final botState = ref.watch(botsNotifierProvider);
-    final bot = botState.bots[botId]!;
+    final bot = ref.watch(botFactoryProvider(id: botId));
 
     return Container(
       width: double.infinity,
@@ -46,16 +45,16 @@ class BotDetailModal extends ConsumerWidget {
           ),
           const SizedBox(height: kSpacingSmall),
           Text(
-            '${bot.orderFutureQueue.length} orders in job queue',
+            '${bot.orderTimerQueue.length} orders in job queue',
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: bot.orderFutureQueue.length,
+              itemCount: bot.orderTimerQueue.length,
               itemBuilder: (context, index) {
                 final orderNotifier = ref.watch(orderNotifierProvider);
-                final orderId = bot.orderFutureQueue.keys.elementAt(index);
+                final orderId = bot.orderTimerQueue.keys.elementAt(index);
                 final order = orderNotifier.vipOrdersQueue[orderId] ?? orderNotifier.normalOrdersQueue[orderId];
 
                 if (order == null || order.completedAt == null) {

@@ -23,7 +23,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      ref.read(botsNotifierProvider.notifier).poll();
+      ref.read(botsOrchestratorProvider.notifier).poll();
     });
   }
 

@@ -12,7 +12,8 @@ class BotPanelSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final botsNotifier = ref.watch(botsNotifierProvider);
+    final botsOrchestrator = ref.watch(botsOrchestratorProvider);
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -33,13 +34,15 @@ class BotPanelSection extends ConsumerWidget {
             child: ListView.separated(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: botsNotifier.bots.length,
+              itemCount: botsOrchestrator.botIds.keys.length,
               padding: const EdgeInsets.symmetric(horizontal: kSpacingMedium),
               separatorBuilder: (context, index) {
                 return const SizedBox(width: kSpacingXSmall);
               },
               itemBuilder: (context, index) {
-                final bot = botsNotifier.bots.values.elementAt(index);
+                final botId = botsOrchestrator.botIds.keys.elementAt(index);
+                final bot = ref.watch(botFactoryProvider(id: botId));
+
                 return IntrinsicHeight(
                   child: BotAvatar(
                     caption: 'Bot ${index + 1}',
@@ -61,7 +64,7 @@ class BotPanelSection extends ConsumerWidget {
               children: [
                 FilledButton.icon(
                   onPressed: () {
-                    ref.read(botsNotifierProvider.notifier).addBot();
+                    ref.read(botsOrchestratorProvider.notifier).addBot();
                   },
                   icon: Icon(Icons.add),
                   label: const Text('Bot'),
@@ -73,7 +76,7 @@ class BotPanelSection extends ConsumerWidget {
                 const SizedBox(width: kSpacingXSmall),
                 FilledButton.icon(
                   onPressed: () {
-                    ref.read(botsNotifierProvider.notifier).removeLastAddedBot();
+                    ref.read(botsOrchestratorProvider.notifier).removeLastAddedBot();
                   },
                   icon: Icon(Icons.remove),
                   label: const Text('Bot'),

@@ -12,36 +12,126 @@ part 'bot_providers.g.dart';
 const kBotCookingDuration = 10;
 
 @riverpod
-class BotsNotifier extends _$BotsNotifier {
+class BotFactory extends _$BotFactory {
   @override
-  BotNotifierState build() {
-    return BotNotifierState(bots: {}, botIdCounter: 0);
+  Bot build({
+    required int id,
+  }) {
+    return Bot(
+      id: id,
+      orderTimerQueue: {},
+    );
+  }
+
+  void enqueueOrder({
+    required Order order,
+  }) {
+    final orderNotifier = ref.read(orderNotifierProvider.notifier);
+
+    final completedAt = DateTime.now().add(const Duration(seconds: kBotCookingDuration));
+    orderNotifier.updateOrderById(
+      order.id,
+      preparedBy: state,
+      status: OrderStatus.processing,
+      completedAt: completedAt,
+    );
+
+    final timer = Timer(
+      const Duration(seconds: kBotCookingDuration),
+      () => _completeOrder(order.id),
+    );
+
+    final newBot = state.copyWith(
+      orderTimerQueue: {...state.orderTimerQueue, order.id: timer},
+    );
+    state = newBot;
+  }
+
+  void dropAllOrders() {
+    final bot = state;
+    bot.orderTimerQueue.forEach((orderId, timer) {
+      timer.cancel();
+
+      final orderNotifier = ref.read(orderNotifierProvider.notifier);
+      orderNotifier.updateOrderById(
+        orderId,
+        status: OrderStatus.pending,
+        preparedBy: null,
+        completedAt: null,
+      );
+    });
+  }
+
+  void _completeOrder(int orderId) {
+    final orderNotifier = ref.read(orderNotifierProvider.notifier);
+    final orderNotifierState = ref.read(orderNotifierProvider);
+
+    final order = orderNotifierState.vipOrdersQueue[orderId] ?? orderNotifierState.normalOrdersQueue[orderId];
+    if (order == null) return;
+
+    orderNotifier.updateOrderById(
+      orderId,
+      status: OrderStatus.completed,
+      preparedBy: state,
+      completedAt: order.completedAt,
+    );
+
+    final jobQueue = state.orderTimerQueue;
+    final timer = jobQueue.remove(orderId);
+    if (timer != null) {
+      timer.cancel();
+    }
+
+    final newBot = state.copyWith(orderTimerQueue: jobQueue);
+    state = newBot;
+  }
+}
+
+@riverpod
+class BotsOrchestrator extends _$BotsOrchestrator {
+  @override
+  BotsOrchestratorState build() {
+    return BotsOrchestratorState(botIdCounter: 0, botIds: {});
+  }
+
+  List<int> get botIds {
+    return state.botIds.keys.toList();
   }
 
   void addBot() {
-    final bot = Bot(id: state.botIdCounter, orderFutureQueue: {});
     state = state.copyWith(
-      bots: {...state.bots, bot.id: bot},
       botIdCounter: state.botIdCounter + 1,
+      botIds: {...state.botIds, state.botIdCounter: true},
     );
   }
 
   void removeLastAddedBot() {
-    if (state.bots.isEmpty) return;
-    final lastBot = state.bots.values.last;
+    if (state.botIds.isEmpty) return;
 
-    final bots = state.bots;
-    bots.remove(lastBot.id);
-    cancelAllOrderFromBot(lastBot);
-    state = state.copyWith(bots: bots);
+    final lastBotId = state.botIds.keys.last;
+    final botNotifier = ref.read(botFactoryProvider(id: lastBotId).notifier);
+    botNotifier.dropAllOrders();
+
+    final botsIds = state.botIds;
+    botsIds.remove(lastBotId);
+
+    state = state.copyWith(botIds: botsIds);
   }
 
   Bot? getIdleBot() {
-    return state.bots.values.where((bot) => bot.status == BotStatus.idle).firstOrNull;
+    final botIds = state.botIds.keys;
+    for (var botId in botIds) {
+      final bot = ref.read(botFactoryProvider(id: botId));
+      if (bot.status == BotStatus.idle) {
+        return bot;
+      }
+    }
+    return null;
   }
 
   Bot? getBotById(int botId) {
-    return state.bots[botId];
+    if (!state.botIds.containsKey(botId)) return null;
+    return ref.read(botFactoryProvider(id: botId));
   }
 
   void poll() {
@@ -56,98 +146,12 @@ class BotsNotifier extends _$BotsNotifier {
         .where((order) => order.status == OrderStatus.pending)
         .firstOrNull;
 
+    final botNotifier = ref.read(botFactoryProvider(id: idleBot.id).notifier);
+
     if (vipOrder != null) {
-      assignOrderToBot(order: vipOrder, bot: idleBot);
+      botNotifier.enqueueOrder(order: vipOrder);
     } else if (normalOrder != null) {
-      assignOrderToBot(order: normalOrder, bot: idleBot);
+      botNotifier.enqueueOrder(order: normalOrder);
     }
-  }
-
-  void assignOrderToBot({
-    required Order order,
-    required Bot bot,
-  }) async {
-    final orderNotifier = ref.read(orderNotifierProvider.notifier);
-
-    final completedAt = DateTime.now().add(const Duration(seconds: kBotCookingDuration));
-    orderNotifier.updateOrderById(
-      order.id,
-      preparedBy: bot,
-      completedAt: completedAt,
-      status: OrderStatus.processing,
-    );
-    final orderId = order.id;
-
-    final timer = Timer(
-      const Duration(seconds: kBotCookingDuration),
-      () => _completeOrder(orderId),
-    );
-
-    final newBot = bot.copyWith(
-      orderFutureQueue: {...bot.orderFutureQueue, order.id: timer},
-    );
-    state = state.copyWith(bots: {...state.bots, bot.id: newBot});
-  }
-
-  void removeOrderFromBotJobQueue(int orderId, Bot bot) {
-    final existingQueue = bot.orderFutureQueue;
-
-    final timer = existingQueue.remove(orderId);
-    if (timer != null) {
-      timer.cancel();
-    }
-
-    final newBot = bot.copyWith(
-      orderFutureQueue: existingQueue,
-    );
-    state = state.copyWith(bots: {...state.bots, bot.id: newBot});
-  }
-
-  void cancelAllOrderFromBot(Bot bot) {
-    final orderNotifier = ref.read(orderNotifierProvider.notifier);
-    final orderState = ref.read(orderNotifierProvider);
-    bot.orderFutureQueue.forEach((orderId, timer) {
-      final order = orderState.vipOrdersQueue[orderId] ?? orderState.normalOrdersQueue[orderId];
-      // No op if order is not found
-      if (order == null) return;
-
-      // Don't cancel any order that is completed
-      if (order.status == OrderStatus.completed) return;
-
-      orderNotifier.updateOrderById(
-        orderId,
-        status: OrderStatus.pending,
-        preparedBy: null,
-        completedAt: null,
-      );
-      timer.cancel();
-    });
-
-    final newBot = bot.copyWith(orderFutureQueue: {});
-    state = state.copyWith(bots: {...state.bots, bot.id: newBot});
-  }
-
-  void _completeOrder(int orderId) {
-    final orderNotifier = ref.read(orderNotifierProvider.notifier);
-    final orderNotifierState = ref.read(orderNotifierProvider);
-    final order = orderNotifierState.vipOrdersQueue[orderId] ?? orderNotifierState.normalOrdersQueue[orderId];
-    if (order == null) {
-      return;
-    }
-    if (order.preparedBy == null || order.status == OrderStatus.completed) {
-      return;
-    }
-
-    // Check if the bot is still available
-    final bot = ref.read(botsNotifierProvider.notifier).getBotById(order.preparedBy!.id);
-    if (bot == null) return;
-
-    orderNotifier.updateOrderById(
-      order.id,
-      status: OrderStatus.completed,
-      preparedBy: order.preparedBy,
-      completedAt: order.completedAt,
-    );
-    removeOrderFromBotJobQueue(order.id, bot);
   }
 }
