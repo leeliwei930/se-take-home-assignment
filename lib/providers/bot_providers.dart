@@ -80,9 +80,7 @@ class BotsNotifier extends _$BotsNotifier {
 
     final timer = Timer(
       const Duration(seconds: kBotCookingDuration),
-      () {
-        _completeOrder(orderId);
-      },
+      () => _completeOrder(orderId),
     );
 
     final newBot = bot.copyWith(
