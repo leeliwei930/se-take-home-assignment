@@ -22,7 +22,7 @@ final completedOrdersProvider =
     );
 
 typedef _$CompletedOrders = AutoDisposeNotifier<List<Order>>;
-String _$pendingOrdersHash() => r'04c7a0a96464bab7ffd298b69bf11a3b583281f6';
+String _$pendingOrdersHash() => r'9993ec01d0c610b4e87b8b6c027bd5684921df10';
 
 /// See also [PendingOrders].
 @ProviderFor(PendingOrders)

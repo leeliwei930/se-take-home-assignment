@@ -21,8 +21,12 @@ class PendingOrders extends _$PendingOrders {
   @override
   List<Order> build() {
     final orderState = ref.watch(orderNotifierProvider);
-    final vipOrders = orderState.vipOrdersQueue.values.where((order) => order.status == OrderStatus.pending);
-    final normalOrders = orderState.normalOrdersQueue.values.where((order) => order.status == OrderStatus.pending);
+    final vipOrders = orderState.vipOrdersQueue.values.where(
+      (order) => order.status == OrderStatus.pending || order.status == OrderStatus.processing,
+    );
+    final normalOrders = orderState.normalOrdersQueue.values.where(
+      (order) => order.status == OrderStatus.pending || order.status == OrderStatus.processing,
+    );
     return [...vipOrders, ...normalOrders];
   }
 }

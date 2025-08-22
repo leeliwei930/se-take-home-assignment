@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bot_notifier_provider.dart';
+part of 'bot_providers.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$botNotifierHash() => r'd43d2756bb6c4c4387982d055063f1003d227234';
+String _$botsNotifierHash() => r'09ec8dbc3d14286c94d95637d084021c59301ae8';
 
-/// See also [BotNotifier].
-@ProviderFor(BotNotifier)
-final botNotifierProvider =
-    NotifierProvider<BotNotifier, BotNotifierState>.internal(
-      BotNotifier.new,
-      name: r'botNotifierProvider',
+/// See also [BotsNotifier].
+@ProviderFor(BotsNotifier)
+final botsNotifierProvider =
+    AutoDisposeNotifierProvider<BotsNotifier, BotNotifierState>.internal(
+      BotsNotifier.new,
+      name: r'botsNotifierProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$botNotifierHash,
+          : _$botsNotifierHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$BotNotifier = Notifier<BotNotifierState>;
+typedef _$BotsNotifier = AutoDisposeNotifier<BotNotifierState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

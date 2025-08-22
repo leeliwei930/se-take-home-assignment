@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_order_simulator/models/bot.dart';
-import 'package:food_order_simulator/providers/bot_notifier_provider.dart';
+import 'package:food_order_simulator/providers/bot_providers.dart';
 import 'package:food_order_simulator/screens/constants/shadow.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
 import 'package:food_order_simulator/widgets/bot_avatar.dart';
@@ -11,7 +11,7 @@ class BotPanelSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final botNotifierState = ref.watch(botNotifierProvider);
+    final botsNotifier = ref.watch(botsNotifierProvider);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -32,17 +32,17 @@ class BotPanelSection extends ConsumerWidget {
             child: ListView.separated(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: botNotifierState.bots.length,
+              itemCount: botsNotifier.bots.length,
               padding: const EdgeInsets.symmetric(horizontal: kSpacingMedium),
               separatorBuilder: (context, index) {
                 return const SizedBox(width: kSpacingXSmall);
               },
               itemBuilder: (context, index) {
-                final bot = botNotifierState.bots[index];
+                final bot = botsNotifier.bots.values.elementAt(index);
                 return IntrinsicHeight(
                   child: BotAvatar(
-                    caption: 'Bot ${++index}',
-                    backgroundColor: bot?.status == BotStatus.idle ? Colors.blue[200] : Colors.green[200],
+                    caption: 'Bot ${index + 1}',
+                    backgroundColor: bot.status == BotStatus.idle ? Colors.blue[200] : Colors.green[200],
                   ),
                 );
               },
@@ -55,7 +55,7 @@ class BotPanelSection extends ConsumerWidget {
               children: [
                 FilledButton.icon(
                   onPressed: () {
-                    ref.read(botNotifierProvider.notifier).addBot();
+                    ref.read(botsNotifierProvider.notifier).addBot();
                   },
                   icon: Icon(Icons.add),
                   label: const Text('Bot'),
@@ -67,7 +67,7 @@ class BotPanelSection extends ConsumerWidget {
                 const SizedBox(width: kSpacingXSmall),
                 FilledButton.icon(
                   onPressed: () {
-                    ref.read(botNotifierProvider.notifier).removeLastAddedBot();
+                    ref.read(botsNotifierProvider.notifier).removeLastAddedBot();
                   },
                   icon: Icon(Icons.remove),
                   label: const Text('Bot'),

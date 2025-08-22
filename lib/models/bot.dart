@@ -9,14 +9,26 @@ enum BotStatus {
 class Bot extends Equatable {
   const Bot({
     required this.id,
-    required this.orderQueue,
     required this.status,
+    required this.orderFutureQueue,
   });
 
   final int id;
-  final List<Order> orderQueue;
   final BotStatus status;
+  final Map<int, Future<void>> orderFutureQueue;
 
   @override
-  List<Object?> get props => [id, orderQueue, status];
+  List<Object?> get props => [id, status, orderFutureQueue];
+
+  Bot copyWith({
+    int? id,
+    Map<int, Future<void>>? orderFutureQueue,
+    BotStatus? status,
+  }) {
+    return Bot(
+      id: id ?? this.id,
+      status: status ?? this.status,
+      orderFutureQueue: orderFutureQueue ?? this.orderFutureQueue,
+    );
+  }
 }
