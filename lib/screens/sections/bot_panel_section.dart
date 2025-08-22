@@ -4,6 +4,7 @@ import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/providers/bot_providers.dart';
 import 'package:food_order_simulator/screens/constants/shadow.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
+import 'package:food_order_simulator/screens/modals/bot_detail_modal.dart';
 import 'package:food_order_simulator/widgets/bot_avatar.dart';
 
 class BotPanelSection extends ConsumerWidget {
@@ -42,7 +43,8 @@ class BotPanelSection extends ConsumerWidget {
                 return IntrinsicHeight(
                   child: BotAvatar(
                     caption: 'Bot ${index + 1}',
-                    backgroundColor: bot.status == BotStatus.idle ? Colors.blue[200] : Colors.green[200],
+                    backgroundColor: bot.status == BotStatus.idle ? Colors.green[200] : Colors.red[200],
+                    onTap: () => BotDetailModal.show(context, bot.id),
                   ),
                 );
               },

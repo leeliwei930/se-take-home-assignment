@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
-import 'package:food_order_simulator/models/order.dart';
 
 enum BotStatus {
   idle,
@@ -13,14 +14,14 @@ class Bot extends Equatable {
   });
 
   final int id;
-  final Map<int, Future<void>> orderFutureQueue;
+  final Map<int, Timer> orderFutureQueue;
 
   @override
   List<Object?> get props => [id, orderFutureQueue];
 
   Bot copyWith({
     int? id,
-    Map<int, Future<void>>? orderFutureQueue,
+    Map<int, Timer>? orderFutureQueue,
   }) {
     return Bot(
       id: id ?? this.id,
