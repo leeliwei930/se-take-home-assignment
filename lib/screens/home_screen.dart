@@ -43,34 +43,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         centerTitle: true,
         title: const Text('Food Order Simulator'),
       ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            OrderPanelSection(),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kSpacingMedium,
-                  vertical: kSpacingSmall,
-                ),
-                children: [
-                  OrderSection(
-                    title: 'PENDING',
-                    backgroundColor: Colors.orange[50]!,
-                    orders: pendingOrders,
-                  ),
-                  OrderSection(
-                    title: 'COMPLETED',
-                    backgroundColor: Colors.green[50]!,
-                    orders: completedOrders,
-                  ),
-                ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          OrderPanelSection(),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kSpacingMedium,
+                vertical: kSpacingSmall,
               ),
+              children: [
+                OrderSection(
+                  title: 'PENDING',
+                  backgroundColor: Colors.orange[50]!,
+                  orders: pendingOrders,
+                ),
+                OrderSection(
+                  title: 'COMPLETED',
+                  backgroundColor: Colors.green[50]!,
+                  orders: completedOrders,
+                ),
+              ],
             ),
-            BotPanelSection(),
-          ],
-        ),
+          ),
+          BotPanelSection(),
+        ],
       ),
     );
   }

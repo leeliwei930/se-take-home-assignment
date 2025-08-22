@@ -7,6 +7,8 @@ enum BotStatus {
   cooking,
 }
 
+const kMaxBotCookingOrders = 1;
+
 class Bot extends Equatable {
   const Bot({
     required this.id,
@@ -30,7 +32,10 @@ class Bot extends Equatable {
   }
 
   BotStatus get status {
-    if (orderTimerQueue.isEmpty) return BotStatus.idle;
-    return BotStatus.cooking;
+    if (orderTimerQueue.length >= kMaxBotCookingOrders) {
+      return BotStatus.cooking;
+    }
+
+    return BotStatus.idle;
   }
 }

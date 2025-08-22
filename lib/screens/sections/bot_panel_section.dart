@@ -13,6 +13,7 @@ class BotPanelSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final botsOrchestrator = ref.watch(botsOrchestratorProvider);
+    final bottomInsets = MediaQuery.of(context).viewPadding.bottom;
 
     return Container(
       decoration: BoxDecoration(
@@ -58,7 +59,11 @@ class BotPanelSection extends ConsumerWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(kSpacingXSmall),
+            padding: EdgeInsets.only(
+              left: kSpacingXSmall,
+              right: kSpacingXSmall,
+              bottom: kSpacingXSmall + bottomInsets,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
