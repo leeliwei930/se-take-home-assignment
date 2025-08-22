@@ -61,7 +61,7 @@ class BotsNotifier extends _$BotsNotifier {
     }
   }
 
-  Future<void> assignOrderToBot({
+  void assignOrderToBot({
     required Order order,
     required Bot bot,
   }) async {
@@ -76,12 +76,10 @@ class BotsNotifier extends _$BotsNotifier {
     );
     final orderId = order.id;
 
-    final completer = Completer<void>();
     final timer = Timer(
       const Duration(seconds: 10),
       () {
         _completeOrder(orderId);
-        completer.complete();
       },
     );
 
@@ -89,8 +87,6 @@ class BotsNotifier extends _$BotsNotifier {
       orderFutureQueue: {...bot.orderFutureQueue, order.id: timer},
     );
     state = state.copyWith(bots: {...state.bots, bot.id: newBot});
-
-    return completer.future;
   }
 
   void removeOrderFromBotJobQueue(int orderId, Bot bot) {
