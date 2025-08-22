@@ -8,13 +8,13 @@ class BotAvatar extends StatelessWidget {
   final VoidCallback? onTap;
 
   const BotAvatar({
-    Key? key,
+    super.key,
     required this.caption,
     this.size = 64.0,
     this.captionStyle,
     this.backgroundColor,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

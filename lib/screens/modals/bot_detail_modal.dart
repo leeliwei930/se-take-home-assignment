@@ -8,13 +8,17 @@ import 'package:food_order_simulator/widgets/bot_avatar.dart';
 import 'package:food_order_simulator/widgets/job_timer.dart';
 
 class BotDetailModal extends ConsumerWidget {
-  const BotDetailModal({super.key, required this.botId});
+  const BotDetailModal({super.key, required this.botId, required this.index});
   final int botId;
+  final int index;
 
-  static show(BuildContext context, int botId) {
+  static show(BuildContext context, {required int botId, required int index}) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => BotDetailModal(botId: botId),
+      builder: (context) => BotDetailModal(
+        botId: botId,
+        index: index,
+      ),
     );
   }
 
@@ -29,7 +33,7 @@ class BotDetailModal extends ConsumerWidget {
       child: Column(
         children: [
           BotAvatar(
-            caption: 'Bot ${bot.id}',
+            caption: 'Bot $index',
             backgroundColor: bot.status == BotStatus.idle ? Colors.green[200] : Colors.red[200],
           ),
           const SizedBox(height: kSpacingSmall),
@@ -50,10 +54,14 @@ class BotDetailModal extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: bot.orderFutureQueue.length,
               itemBuilder: (context, index) {
-                final orderId = bot.orderFutureQueue.keys.elementAt(index);
                 final orderNotifier = ref.watch(orderNotifierProvider);
+                final orderId = bot.orderFutureQueue.keys.elementAt(index);
                 final order = orderNotifier.vipOrdersQueue[orderId] ?? orderNotifier.normalOrdersQueue[orderId];
-                if (order == null || order.completedAt == null) return const SizedBox.shrink();
+
+                if (order == null || order.completedAt == null) {
+                  return const SizedBox.shrink();
+                }
+
                 return ListTile(
                   title: Text('Order $orderId'),
                   trailing: JobTimer(endTime: order.completedAt!),

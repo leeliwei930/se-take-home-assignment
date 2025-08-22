@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/order_queue_state.dart';

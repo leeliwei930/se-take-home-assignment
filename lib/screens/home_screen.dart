@@ -41,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Food Order Simulator"),
+        title: const Text('Food Order Simulator'),
       ),
       body: SafeArea(
         child: Column(

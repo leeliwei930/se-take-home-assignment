@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/order_notifier_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

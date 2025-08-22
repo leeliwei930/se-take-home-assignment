@@ -44,7 +44,11 @@ class BotPanelSection extends ConsumerWidget {
                   child: BotAvatar(
                     caption: 'Bot ${index + 1}',
                     backgroundColor: bot.status == BotStatus.idle ? Colors.green[200] : Colors.red[200],
-                    onTap: () => BotDetailModal.show(context, bot.id),
+                    onTap: () => BotDetailModal.show(
+                      context,
+                      botId: bot.id,
+                      index: index + 1,
+                    ),
                   ),
                 );
               },

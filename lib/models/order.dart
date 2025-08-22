@@ -13,7 +13,7 @@ enum OrderPriority {
 }
 
 class Order extends Equatable {
-  Order({
+  const Order({
     required this.id,
     required this.status,
     required this.type,

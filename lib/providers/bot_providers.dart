@@ -133,25 +133,25 @@ class BotsNotifier extends _$BotsNotifier {
 
   void _completeOrder(int orderId) {
     final orderNotifier = ref.read(orderNotifierProvider.notifier);
-    final _orderNotifierState = ref.read(orderNotifierProvider);
-    final _order = _orderNotifierState.vipOrdersQueue[orderId] ?? _orderNotifierState.normalOrdersQueue[orderId];
-    if (_order == null) {
+    final orderNotifierState = ref.read(orderNotifierProvider);
+    final order = orderNotifierState.vipOrdersQueue[orderId] ?? orderNotifierState.normalOrdersQueue[orderId];
+    if (order == null) {
       return;
     }
-    if (_order.preparedBy == null || _order.status == OrderStatus.completed) {
+    if (order.preparedBy == null || order.status == OrderStatus.completed) {
       return;
     }
 
     // Check if the bot is still available
-    final bot = ref.read(botsNotifierProvider.notifier).getBotById(_order.preparedBy!.id);
+    final bot = ref.read(botsNotifierProvider.notifier).getBotById(order.preparedBy!.id);
     if (bot == null) return;
 
     orderNotifier.updateOrderById(
-      _order.id,
+      order.id,
       status: OrderStatus.completed,
-      preparedBy: _order.preparedBy,
-      completedAt: _order.completedAt,
+      preparedBy: order.preparedBy,
+      completedAt: order.completedAt,
     );
-    removeOrderFromBotJobQueue(_order.id, bot);
+    removeOrderFromBotJobQueue(order.id, bot);
   }
 }
