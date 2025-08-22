@@ -9,6 +9,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bot_providers.g.dart';
 
+const kBotCookingDuration = 10;
+
 @riverpod
 class BotsNotifier extends _$BotsNotifier {
   @override
@@ -67,7 +69,7 @@ class BotsNotifier extends _$BotsNotifier {
   }) async {
     final orderNotifier = ref.read(orderNotifierProvider.notifier);
 
-    final completedAt = DateTime.now().add(const Duration(seconds: 10));
+    final completedAt = DateTime.now().add(const Duration(seconds: kBotCookingDuration));
     orderNotifier.updateOrderById(
       order.id,
       preparedBy: bot,
@@ -77,7 +79,7 @@ class BotsNotifier extends _$BotsNotifier {
     final orderId = order.id;
 
     final timer = Timer(
-      const Duration(seconds: 10),
+      const Duration(seconds: kBotCookingDuration),
       () {
         _completeOrder(orderId);
       },
