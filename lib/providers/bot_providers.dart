@@ -15,7 +15,7 @@ class BotsNotifier extends _$BotsNotifier {
   }
 
   void addBot() {
-    final bot = Bot(id: state.botIdCounter, status: BotStatus.idle, orderFutureQueue: {});
+    final bot = Bot(id: state.botIdCounter, orderFutureQueue: {});
     state = state.copyWith(
       bots: {...state.bots, bot.id: bot},
       botIdCounter: state.botIdCounter + 1,
@@ -72,19 +72,45 @@ class BotsNotifier extends _$BotsNotifier {
       completedAt: completedAt,
       status: OrderStatus.processing,
     );
+    final orderId = order.id;
     final future = Future.delayed(const Duration(seconds: 10), () {
+      final orderNotifier = ref.read(orderNotifierProvider.notifier);
+      final _orderNotifierState = ref.read(orderNotifierProvider);
+      final _order = _orderNotifierState.vipOrdersQueue[orderId] ?? _orderNotifierState.normalOrdersQueue[orderId];
+      if (_order == null) {
+        return;
+      }
+      if (_order.preparedBy == null || _order.status == OrderStatus.completed) {
+        return;
+      }
+
+      final bot = ref.read(botsNotifierProvider.notifier).getBotById(_order.preparedBy!.id);
+      if (bot == null) return;
+
       orderNotifier.updateOrderById(
-        order.id,
+        _order.id,
         status: OrderStatus.completed,
-        preparedBy: order.preparedBy,
-        completedAt: order.completedAt,
+        preparedBy: _order.preparedBy,
+        completedAt: _order.completedAt,
       );
+      removeOrderFromBotOrderFutureQueue(_order.id, bot);
     });
 
-    final newBot = bot.copyWith(orderFutureQueue: {...bot.orderFutureQueue, order.id: future});
+    final newBot = bot.copyWith(
+      orderFutureQueue: {...bot.orderFutureQueue, order.id: future},
+    );
     state = state.copyWith(bots: {...state.bots, bot.id: newBot});
 
     return future;
+  }
+
+  void removeOrderFromBotOrderFutureQueue(int orderId, Bot bot) {
+    final existingQueue = bot.orderFutureQueue;
+    existingQueue.remove(orderId);
+    final newBot = bot.copyWith(
+      orderFutureQueue: existingQueue,
+    );
+    state = state.copyWith(bots: {...state.bots, bot.id: newBot});
   }
 
   void cancelAllOrderFromBot(Bot bot) {
