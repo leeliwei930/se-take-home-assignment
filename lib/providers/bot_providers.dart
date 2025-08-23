@@ -6,6 +6,7 @@ import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/bot_provider_states.dart';
 import 'package:food_order_simulator/providers/order_queue_provider.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -161,4 +162,9 @@ class BotsOrchestrator extends _$BotsOrchestrator {
       return;
     }
   }
+}
+
+class MockBotsOrchestrator extends _$BotsOrchestrator with Mock implements BotsOrchestrator {
+  @override
+  BotsOrchestratorState build();
 }
