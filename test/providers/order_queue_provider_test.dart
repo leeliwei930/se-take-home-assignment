@@ -85,10 +85,10 @@ void main() {
         expect(state.vipOrdersQueue[2]?.id, 2);
 
         // All should be VIP orders
-        state.vipOrdersQueue.values.forEach((order) {
+        for (var order in state.vipOrdersQueue.values) {
           expect(order.type, OrderPriority.vip);
           expect(order.status, OrderStatus.pending);
-        });
+        }
       });
     });
 
@@ -134,10 +134,10 @@ void main() {
         expect(state.normalOrdersQueue[2]?.id, 2);
 
         // All should be normal orders
-        state.normalOrdersQueue.values.forEach((order) {
+        for (var order in state.normalOrdersQueue.values) {
           expect(order.type, OrderPriority.normal);
           expect(order.status, OrderStatus.pending);
-        });
+        }
       });
     });
 
