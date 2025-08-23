@@ -11,28 +11,17 @@
             "id": "2b8665f40e0c4a40",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "markdown",
               "state": {
-                "file": "Planning/Drawing 2025-08-20 19.33.26.excalidraw.md"
+                "file": "Docs/Architecture and decision making of this project.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "excalidraw-icon",
-              "title": "Drawing 2025-08-20 19.33.26.excalidraw"
-            }
-          },
-          {
-            "id": "7503166dac1d4225",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "Planning/Drawing 2025-08-21 18.12.34.excalidraw.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "Drawing 2025-08-21 18.12.34.excalidraw"
+              "icon": "lucide-file",
+              "title": "Architecture and decision making of this project"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -101,7 +90,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "bc56f40da5cab62c",
@@ -165,16 +155,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Planning/Drawing 2025-08-20 19.33.26.excalidraw.md",
+                "file": "Docs/Architecture and decision making of this project.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Drawing 2025-08-20 19.33.26.excalidraw"
+              "title": "Outline of Architecture and decision making of this project"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -193,10 +184,13 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "1dca478d77d70531",
+  "active": "2b8665f40e0c4a40",
   "lastOpenFiles": [
+    "Planning/draft_ui_prototype.excalidraw.md",
+    "Docs/Architecture and decision making of this project.md",
+    "Docs",
+    "Untitled.canvas",
     "Planning/Drawing 2025-08-21 18.12.34.excalidraw.md",
-    "Planning/Drawing 2025-08-20 19.33.26.excalidraw.md",
     "Planning"
   ]
 }
