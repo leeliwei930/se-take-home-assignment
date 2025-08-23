@@ -1,6 +1,7 @@
 import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/order_queue_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'order_queue_provider.g.dart';
@@ -63,4 +64,9 @@ class OrderQueue extends _$OrderQueue {
       state = state.copyWith(normalOrdersQueue: {...state.normalOrdersQueue, order.id: newOrder});
     }
   }
+}
+
+class MockOrderQueue extends _$OrderQueue with Mock implements OrderQueue {
+  @override
+  OrderQueueState build();
 }
