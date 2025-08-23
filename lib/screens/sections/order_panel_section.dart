@@ -18,39 +18,38 @@ class OrderPanelSection extends ConsumerWidget {
         horizontal: kSpacingSmall,
         vertical: kSpacingSmall,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Wrap(
         children: [
-          Expanded(
-            child: FilledButton.icon(
-              icon: Icon(Icons.add),
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.blue[100],
-                foregroundColor: Colors.black,
-              ),
-              label: const Text('New Normal Order'),
-              onPressed: () {
-                final orderNotifier = ref.read(orderQueueProvider.notifier);
-
-                orderNotifier.addNormalOrder();
-              },
+          FilledButton.icon(
+            icon: Icon(Icons.add),
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.blue[100],
+              foregroundColor: Colors.black,
             ),
+            label: const Text(
+              'New Normal Order',
+            ),
+            onPressed: () {
+              final orderNotifier = ref.read(orderQueueProvider.notifier);
+
+              orderNotifier.addNormalOrder();
+            },
           ),
           const SizedBox(width: kSpacingXSmall),
-          Expanded(
-            child: FilledButton.icon(
-              icon: Icon(Icons.add),
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.amber,
-                foregroundColor: Colors.black,
-              ),
-              label: const Text('New VIP Order'),
-              onPressed: () {
-                final orderQueueNotifier = ref.read(orderQueueProvider.notifier);
-
-                orderQueueNotifier.addVIPOrder();
-              },
+          FilledButton.icon(
+            icon: Icon(Icons.add),
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.amber,
+              foregroundColor: Colors.black,
             ),
+            label: const Text(
+              'New VIP Order',
+            ),
+            onPressed: () {
+              final orderQueueNotifier = ref.read(orderQueueProvider.notifier);
+
+              orderQueueNotifier.addVIPOrder();
+            },
           ),
         ],
       ),
