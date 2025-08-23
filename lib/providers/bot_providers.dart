@@ -55,6 +55,8 @@ class BotFactory extends _$BotFactory {
 
   void dropAllOrders() {
     final bot = state;
+    if (bot.orderTimerQueue.isEmpty) return;
+
     bot.orderTimerQueue.forEach((orderId, timer) {
       timer.cancel();
 
@@ -66,6 +68,10 @@ class BotFactory extends _$BotFactory {
         completedAt: null,
       );
     });
+
+    // Clear the bot's order timer queue
+    final newBot = state.copyWith(orderTimerQueue: {});
+    state = newBot;
   }
 
   void _completeOrder(int orderId) {
