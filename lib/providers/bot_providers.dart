@@ -168,3 +168,8 @@ class MockBotsOrchestrator extends _$BotsOrchestrator with Mock implements BotsO
   @override
   BotsOrchestratorState build();
 }
+
+class MockBotFactory extends _$BotFactory with Mock implements BotFactory {
+  @override
+  Bot build({required int id});
+}
