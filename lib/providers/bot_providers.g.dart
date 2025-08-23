@@ -6,7 +6,7 @@ part of 'bot_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$botFactoryHash() => r'a5cf4f6bdbd07a52dcb0a3b6b927f42eed3c14cc';
+String _$botFactoryHash() => r'890e85edcfe400c78df164a3150c3ebd169a8956';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -156,7 +156,7 @@ class _BotFactoryProviderElement
   int get id => (origin as BotFactoryProvider).id;
 }
 
-String _$botsOrchestratorHash() => r'0b4e47da8f52f1da453aa05fab104f0574cccdd9';
+String _$botsOrchestratorHash() => r'abf281885c05b9ee97b113b87484efe3af9fc5fb';
 
 /// See also [BotsOrchestrator].
 @ProviderFor(BotsOrchestrator)

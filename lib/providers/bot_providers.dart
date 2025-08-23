@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/bot_provider_states.dart';
@@ -17,6 +19,12 @@ class BotFactory extends _$BotFactory {
   Bot build({
     required int id,
   }) {
+    ref.onDispose(() {
+      if (kDebugMode) {
+        log('BotFactory disposed: $id');
+      }
+    });
+
     return Bot(
       id: id,
       orderTimerQueue: {},
@@ -94,10 +102,6 @@ class BotsOrchestrator extends _$BotsOrchestrator {
     return BotsOrchestratorState(botIdCounter: 0, botIds: {});
   }
 
-  List<int> get botIds {
-    return state.botIds.keys.toList();
-  }
-
   void addBot() {
     state = state.copyWith(
       botIdCounter: state.botIdCounter + 1,
@@ -129,11 +133,6 @@ class BotsOrchestrator extends _$BotsOrchestrator {
     return null;
   }
 
-  Bot? getBotById(int botId) {
-    if (!state.botIds.containsKey(botId)) return null;
-    return ref.read(botFactoryProvider(id: botId));
-  }
-
   void poll() {
     final idleBot = getIdleBot();
     if (idleBot == null) return;
@@ -142,16 +141,20 @@ class BotsOrchestrator extends _$BotsOrchestrator {
     final vipOrder = orderNotifier.vipOrdersQueue.values
         .where((order) => order.status == OrderStatus.pending)
         .firstOrNull;
-    final normalOrder = orderNotifier.normalOrdersQueue.values
-        .where((order) => order.status == OrderStatus.pending)
-        .firstOrNull;
 
     final botNotifier = ref.read(botFactoryProvider(id: idleBot.id).notifier);
 
     if (vipOrder != null) {
       botNotifier.enqueueOrder(order: vipOrder);
-    } else if (normalOrder != null) {
+      return;
+    }
+
+    final normalOrder = orderNotifier.normalOrdersQueue.values
+        .where((order) => order.status == OrderStatus.pending)
+        .firstOrNull;
+    if (normalOrder != null) {
       botNotifier.enqueueOrder(order: normalOrder);
+      return;
     }
   }
 }
