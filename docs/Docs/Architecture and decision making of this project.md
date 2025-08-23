@@ -181,6 +181,41 @@ classDiagram
         }
     }
     
+    namespace UI {
+        class HomeScreen {
+            -Timer? _timer
+            +initState()
+            +dispose()
+            +build()
+        }
+        
+        class OrderPanelSection {
+            +build()
+            +addNormalOrder()
+            +addVIPOrder()
+        }
+        
+        class BotPanelSection {
+            +build()
+            +addBot()
+            +removeLastAddedBot()
+        }
+        
+        class OrderSection {
+            +String title
+            +Color backgroundColor
+            +List<Order> orders
+            +build()
+        }
+        
+        class BotDetailModal {
+            +int botId
+            +int index
+            +show()
+            +build()
+        }
+    }
+    
     Order "many" --> "0..1" Bot : prepared by
     Bot "1" --> "*" Timer : has timer queue
     
@@ -196,6 +231,18 @@ classDiagram
     
     CompletedOrders --> OrderQueueState : watches
     PendingOrders --> OrderQueueState : watches
+    
+    HomeScreen --> BotsOrchestrator : polls every 1s
+    HomeScreen --> PendingOrders : watches
+    HomeScreen --> CompletedOrders : watches
+    
+    OrderPanelSection --> OrderQueue : adds orders
+    BotPanelSection --> BotsOrchestrator : adds/removes bots
+    BotPanelSection --> BotFactory : displays bots
+    BotDetailModal --> BotFactory : displays bot details
+    BotDetailModal --> OrderQueue : retrieves orders
+    
+    OrderSection --> Order : displays orders
 ```
 
 
