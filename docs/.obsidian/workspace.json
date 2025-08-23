@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Docs/Architecture and decision making of this project.md",
+                "file": "Docs/Project Architecture.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Architecture and decision making of this project"
+              "title": "Project Architecture"
             }
           }
         ]
@@ -90,8 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "bc56f40da5cab62c",
@@ -187,8 +186,9 @@
   },
   "active": "2b8665f40e0c4a40",
   "lastOpenFiles": [
+    "Docs/Compilation Guide.md",
+    "Docs/Project Architecture.md",
     "Planning/draft_ui_prototype.excalidraw.md",
-    "Docs/Architecture and decision making of this project.md",
     "Docs",
     "Untitled.canvas",
     "Planning/Drawing 2025-08-21 18.12.34.excalidraw.md",
