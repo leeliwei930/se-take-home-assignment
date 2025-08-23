@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_order_simulator/providers/order_notifier_provider.dart';
+import 'package:food_order_simulator/providers/order_queue_provider.dart';
 import 'package:food_order_simulator/screens/constants/shadow.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
 
@@ -30,7 +30,7 @@ class OrderPanelSection extends ConsumerWidget {
               ),
               label: const Text('New Normal Order'),
               onPressed: () {
-                final orderNotifier = ref.read(orderNotifierProvider.notifier);
+                final orderNotifier = ref.read(orderQueueProvider.notifier);
 
                 orderNotifier.addNormalOrder();
               },
@@ -46,9 +46,9 @@ class OrderPanelSection extends ConsumerWidget {
               ),
               label: const Text('New VIP Order'),
               onPressed: () {
-                final orderNotifier = ref.read(orderNotifierProvider.notifier);
+                final orderQueueNotifier = ref.read(orderQueueProvider.notifier);
 
-                orderNotifier.addVIPOrder();
+                orderQueueNotifier.addVIPOrder();
               },
             ),
           ),

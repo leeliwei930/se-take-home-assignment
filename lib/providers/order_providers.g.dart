@@ -6,7 +6,7 @@ part of 'order_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$completedOrdersHash() => r'37868ec9275989661223a2e5e53631f4d3ce6fc1';
+String _$completedOrdersHash() => r'7a96e89ac3a966d624bde2ffd7fe03e3e5c31c37';
 
 /// See also [CompletedOrders].
 @ProviderFor(CompletedOrders)
@@ -22,7 +22,7 @@ final completedOrdersProvider =
     );
 
 typedef _$CompletedOrders = AutoDisposeNotifier<List<Order>>;
-String _$pendingOrdersHash() => r'9993ec01d0c610b4e87b8b6c027bd5684921df10';
+String _$pendingOrdersHash() => r'735447a948fad7c008b0f198ffdbfee8372e2130';
 
 /// See also [PendingOrders].
 @ProviderFor(PendingOrders)

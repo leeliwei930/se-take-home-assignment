@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/bot_provider_states.dart';
-import 'package:food_order_simulator/providers/order_notifier_provider.dart';
+import 'package:food_order_simulator/providers/order_queue_provider.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,13 +31,11 @@ class BotFactory extends _$BotFactory {
     );
   }
 
-  void enqueueOrder({
-    required Order order,
-  }) {
-    final orderNotifier = ref.read(orderNotifierProvider.notifier);
+  void enqueueOrder(Order order) {
+    final orderQueueNotifier = ref.read(orderQueueProvider.notifier);
 
     final completedAt = DateTime.now().add(const Duration(seconds: kBotCookingDuration));
-    orderNotifier.updateOrderById(
+    orderQueueNotifier.updateOrderById(
       order.id,
       preparedBy: state,
       status: OrderStatus.processing,
@@ -60,8 +58,8 @@ class BotFactory extends _$BotFactory {
     bot.orderTimerQueue.forEach((orderId, timer) {
       timer.cancel();
 
-      final orderNotifier = ref.read(orderNotifierProvider.notifier);
-      orderNotifier.updateOrderById(
+      final orderQueueNotifier = ref.read(orderQueueProvider.notifier);
+      orderQueueNotifier.updateOrderById(
         orderId,
         status: OrderStatus.pending,
         preparedBy: null,
@@ -71,13 +69,13 @@ class BotFactory extends _$BotFactory {
   }
 
   void _completeOrder(int orderId) {
-    final orderNotifier = ref.read(orderNotifierProvider.notifier);
-    final orderNotifierState = ref.read(orderNotifierProvider);
+    final orderQueueNotifier = ref.read(orderQueueProvider.notifier);
+    final orderQueueState = ref.read(orderQueueProvider);
 
-    final order = orderNotifierState.vipOrdersQueue[orderId] ?? orderNotifierState.normalOrdersQueue[orderId];
+    final order = orderQueueState.vipOrdersQueue[orderId] ?? orderQueueState.normalOrdersQueue[orderId];
     if (order == null) return;
 
-    orderNotifier.updateOrderById(
+    orderQueueNotifier.updateOrderById(
       orderId,
       status: OrderStatus.completed,
       preparedBy: state,
@@ -137,23 +135,23 @@ class BotsOrchestrator extends _$BotsOrchestrator {
     final idleBot = getIdleBot();
     if (idleBot == null) return;
 
-    final orderNotifier = ref.read(orderNotifierProvider);
-    final vipOrder = orderNotifier.vipOrdersQueue.values
+    final orderQueueState = ref.read(orderQueueProvider);
+    final vipOrder = orderQueueState.vipOrdersQueue.values
         .where((order) => order.status == OrderStatus.pending)
         .firstOrNull;
 
     final botNotifier = ref.read(botFactoryProvider(id: idleBot.id).notifier);
 
     if (vipOrder != null) {
-      botNotifier.enqueueOrder(order: vipOrder);
+      botNotifier.enqueueOrder(vipOrder);
       return;
     }
 
-    final normalOrder = orderNotifier.normalOrdersQueue.values
+    final normalOrder = orderQueueState.normalOrdersQueue.values
         .where((order) => order.status == OrderStatus.pending)
         .firstOrNull;
     if (normalOrder != null) {
-      botNotifier.enqueueOrder(order: normalOrder);
+      botNotifier.enqueueOrder(normalOrder);
       return;
     }
   }

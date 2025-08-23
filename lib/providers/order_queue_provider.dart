@@ -3,12 +3,12 @@ import 'package:food_order_simulator/models/order.dart';
 import 'package:food_order_simulator/providers/order_queue_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'order_notifier_provider.g.dart';
+part 'order_queue_provider.g.dart';
 
 const kCookingDuration = 10;
 
 @Riverpod(keepAlive: true)
-class OrderNotifier extends _$OrderNotifier {
+class OrderQueue extends _$OrderQueue {
   @override
   OrderQueueState build() {
     return OrderQueueState(

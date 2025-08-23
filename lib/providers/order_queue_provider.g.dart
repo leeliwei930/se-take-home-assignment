@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order_notifier_provider.dart';
+part of 'order_queue_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$orderNotifierHash() => r'9fa51f453efbeca4cd072dd3e5d205a097c1e206';
+String _$orderQueueHash() => r'b35cce50ec677e9ff40eb96552573abd24407651';
 
-/// See also [OrderNotifier].
-@ProviderFor(OrderNotifier)
-final orderNotifierProvider =
-    NotifierProvider<OrderNotifier, OrderQueueState>.internal(
-      OrderNotifier.new,
-      name: r'orderNotifierProvider',
+/// See also [OrderQueue].
+@ProviderFor(OrderQueue)
+final orderQueueProvider =
+    NotifierProvider<OrderQueue, OrderQueueState>.internal(
+      OrderQueue.new,
+      name: r'orderQueueProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$orderNotifierHash,
+          : _$orderQueueHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$OrderNotifier = Notifier<OrderQueueState>;
+typedef _$OrderQueue = Notifier<OrderQueueState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

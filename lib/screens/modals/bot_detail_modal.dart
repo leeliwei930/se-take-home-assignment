@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_order_simulator/models/bot.dart';
 import 'package:food_order_simulator/providers/bot_providers.dart';
-import 'package:food_order_simulator/providers/order_notifier_provider.dart';
+import 'package:food_order_simulator/providers/order_queue_provider.dart';
 import 'package:food_order_simulator/screens/constants/spacing.dart';
 import 'package:food_order_simulator/widgets/bot_avatar.dart';
 import 'package:food_order_simulator/widgets/job_timer.dart';
@@ -53,9 +53,9 @@ class BotDetailModal extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: bot.orderTimerQueue.length,
               itemBuilder: (context, index) {
-                final orderNotifier = ref.watch(orderNotifierProvider);
+                final orderQueueState = ref.watch(orderQueueProvider);
                 final orderId = bot.orderTimerQueue.keys.elementAt(index);
-                final order = orderNotifier.vipOrdersQueue[orderId] ?? orderNotifier.normalOrdersQueue[orderId];
+                final order = orderQueueState.vipOrdersQueue[orderId] ?? orderQueueState.normalOrdersQueue[orderId];
 
                 if (order == null || order.completedAt == null) {
                   return const SizedBox.shrink();
